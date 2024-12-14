@@ -29,8 +29,8 @@ def upload_and_cache_file(file_name, bucket_name):
         print(f"Файл {file_name} добавлен в Redis с временем хранения = {REDIS_TTL} секунд.")
 
         # Удаление локального файла
-        os.remove(file_name)
-        print(f"Файл {file_name} удалён из локальной директории.")
+        # os.remove(file_name)
+        # print(f"Файл {file_name} удалён из локальной директории.")
 
     except Exception as e:
         print(f"Ошибка при обработке файла {file_name}: {e}")

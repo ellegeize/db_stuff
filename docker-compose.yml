@@ -1,8 +1,24 @@
-version: '3.8'
+version: '4'
 services:
+
+  backend:
+    build:
+      context: ./
+    ports:
+      - 8000:8000
+    networks:
+      - local_network
+    volumes:
+      - ./uploads:/app/uploads
+
   postgres:
-    image: postgres
+    image: postgres:17
+    build:
+      context: ./db
     container_name: postgres
+    hostname: postgres
+    restart: always
+    shm_size: 128mb
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -11,17 +27,21 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - local_network
 
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com  # Логин для входа в pgAdmin
-      PGADMIN_DEFAULT_PASSWORD: admin          # Пароль для входа в pgAdmin
+      PGADMIN_DEFAULT_EMAIL: admin@example.com  
+      PGADMIN_DEFAULT_PASSWORD: admin          
     ports:
-      - "5050:80"  # Открываем порт для pgAdmin
+      - "5050:80"  
     depends_on:
       - postgres
+    networks:
+      - local_network
 
   minio:
     image: minio/minio
@@ -36,12 +56,20 @@ services:
       - "9001:9001"
     volumes:
       - minio_data:/data
+    networks:
+      - local_network
 
   redis:
     image: redis
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - local_network
+
+networks:
+  local_network:  # Объявляем пользовательскую локальную сеть
+    driver: bridge
 
 volumes:
   postgres_data:

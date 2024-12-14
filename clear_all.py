@@ -13,7 +13,7 @@ BUCKET_NAME = "example-bucket"  # Укажите имя бакета для оч
 POSTGRES_USER = "postgres"
 POSTGRES_PASSWORD = "postgres"
 POSTGRES_DB = "postgres"
-POSTGRES_HOST = "localhost"
+POSTGRES_HOST = "host.docker.internal"
 POSTGRES_PORT = "5432"
 
 # Подключение к MinIO
